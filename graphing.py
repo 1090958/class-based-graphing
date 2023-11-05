@@ -51,6 +51,9 @@ class graph:
         #if A == B: return
         self.add_node(A)
         self.add_node(B)
+        for edge_ in self.edges:
+            if edge_.nodes == (self[A],self[B]) or edge_.nodes == (self[B],self[A]):
+                return
         self.edges.append(edge(self[A],self[B], value))
         
     def remove_node(self, node_ : node):
@@ -60,8 +63,13 @@ class graph:
         self.nodes.remove(node_)
         
     def remove_edge(self,edge_):
+        
+        edge_[0].adjacent.remove(edge_[1])
+        edge_[1].adjacent.remove(edge_[0])
+        
         self.edges.remove(edge_)
         
+
     def connect_all_nodes(self):
         nodes1 = [i.name for i in self.nodes]
         for node1 in nodes1:
@@ -137,3 +145,5 @@ class graph:
         # here in case I find 
         # a workaround
         return(self)
+    
+bias = lambda A, B: 1
